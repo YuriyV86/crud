@@ -10,15 +10,15 @@ const router = express.Router()
 class User {
   static #list = []
 
-  verifyPassowrd = (password) => {
-    this.password === password
-  }
-
   constructor(email, login, password) {
     this.email = email
     this.login = login
     this.password = password
     this.id = new Date().getTime()
+  }
+
+  verifyPassword = (password) => {
+    this.password === password
   }
 
   static add = (user) => {
@@ -48,6 +48,7 @@ class User {
 
   static updateById = (id, data) => {
     const user = this.getById(id)
+
     if (user) {
       this.update(user, data)
 
@@ -114,16 +115,16 @@ router.get('/user-delete', function (req, res) {
 })
 
 router.post('/user-update', function (req, res) {
-  let result = false
   const { email, password, id } = req.body
 
+  let result = false
+
   const user = User.getById(Number(id))
-  if (user.verifyPassowrd(password)) {
+
+  if (user.verifyPassword(password)) {
     User.update(user, { email })
     result = true
   }
-
-  // result = User.updateById(Number(id), { email })
 
   res.render('success-info', {
     style: 'success-info',
