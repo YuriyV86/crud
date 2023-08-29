@@ -17,21 +17,16 @@ class User {
     this.id = new Date().getTime()
   }
 
-  verifyPassword = (password) => {
-    this.password === password
-  }
+  verifyPassword = (password) => this.password === password
 
   static add = (user) => {
     this.#list.push(user)
   }
 
-  static getList = () => {
-    return this.#list
-  }
+  static getList = () => this.#list
 
-  static getById = (id) => {
+  static getById = (id) =>
     this.#list.find((user) => user.id === id)
-  }
 
   static deleteById = (id) => {
     const index = this.#list.findIndex(
