@@ -1,0 +1,23 @@
+<div class='form'>
+  <div class='message'>
+
+    <div class='labels_block'>
+      {{#if success}}
+        <h1 class='form__title'>Успішне виконання дії</h1>
+      {{else}}
+        <h1 class='form__title'>Помилка при виконанні дії</h1>
+      {{/if}}
+
+      <h2 class='form_message'>
+        {{info}}
+      </h2>
+    </div>
+
+    <div class='labels_block'>
+      <form method='get' action='/'>
+        <button class='form__button btn_success'>Повернутися
+          назад</button>
+      </form>
+    </div>
+  </div>
+</div>

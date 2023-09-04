@@ -1,0 +1,87 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  padding: 16px;
+  gap: 32px;
+  max-width: 700px;
+}
+.form__title {
+  font-size: 20px;
+  font-weight: bold;
+  padding-bottom: 4px;
+  border-bottom: 1px solid #ddd;
+  letter-spacing: 2px;
+}
+.form__content {
+  display: grid;
+  gap: 24px;
+}
+.form__field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  width: 100%;
+}
+.form__label {
+  font-size: 14px;
+}
+.form__input {
+  border: 1px solid #ddd;
+  padding: 8px;
+  border-radius: 5px;
+}
+.form__input:read-only {
+  background-color: rgba(228, 227, 227, 0.9254901961);
+}
+.form__buttons {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  column-gap: 20px;
+}
+.form__button {
+  display: flex;
+  border: 1px solid #ddd;
+  padding: 8px;
+  border-radius: 5px;
+  letter-spacing: 1.5px;
+  width: 50%;
+  text-decoration: none;
+  align-items: center;
+  justify-content: center;
+}
+
+main {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+.btn_success {
+  background-color: #3172ff;
+  color: white;
+}
+
+.btn_delete {
+  background-color: red;
+  color: white;
+}
+
+.field_row {
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+}
+
+.double_row {
+  display: flex;
+  height: 70px;
+}
+
+.description_footer {
+  display: flex;
+  font-size: 12;
+  color: gray;
+}
+
+/*# sourceMappingURL=style.css.map */
