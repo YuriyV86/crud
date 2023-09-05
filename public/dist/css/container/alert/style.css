@@ -1,0 +1,48 @@
+.form {
+  display: flex;
+  max-width: 700px;
+  width: 700px;
+  justify-content: center;
+}
+
+.message {
+  margin-top: 50px;
+  display: flex;
+  column-gap: 100px;
+  justify-content: space-between;
+  padding: 15px;
+  box-shadow: 0px 0px 7px 7px gray;
+}
+
+.labels_block {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.form__title {
+  font-weight: 600;
+  color: black;
+}
+
+.form_message {
+  font-weight: 400;
+  color: black;
+}
+
+.btn_success {
+  background-color: #3172ff;
+  color: white;
+  border-radius: 5px;
+  width: 230;
+  padding: 7;
+  vertical-align: bottom;
+}
+
+.labels_block {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/*# sourceMappingURL=style.css.map */

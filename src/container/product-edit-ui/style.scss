@@ -1,0 +1,94 @@
+@use '../../lib/service.scss' as s;
+
+.form {
+  display: flex;
+  flex-direction: column;
+  padding: s.space(4);
+  gap: s.space(8);
+  max-width: 700px;
+
+  &__title {
+    font-size: 20px;
+    font-weight: bold;
+    padding-bottom: s.space(1);
+    border-bottom: 1px solid s.color('light');
+    letter-spacing: 2px;
+  }
+
+  &__content {
+    display: grid;
+    gap: s.space(6);
+  }
+
+  &__field {
+    display: flex;
+    flex-direction: column;
+    gap: s.space(1);
+    width: 100%;
+  }
+
+  &__label {
+    font-size: 14px;  
+  }
+
+  &__input {
+    border: 1px solid s.color('light');
+    padding: s.space(2);
+    border-radius: 5px;
+  }
+
+  &__input:read-only {
+    background-color: #e4e3e3ec;
+  }
+  &__buttons {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    column-gap: 20px;
+  }
+
+  &__button {
+    display: flex;
+    border: 1px solid s.color('light');
+    padding: s.space(2);
+    border-radius: 5px;
+    letter-spacing: 1.5px;
+    width: 50%;
+    text-decoration: none;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+main {
+  display: flex;
+  flex-direction:  column;
+  gap: s.space(10);
+}
+
+.btn_success {
+  background-color: #3172ff;
+  color: white;
+}
+
+.btn_delete {
+  background-color: red;
+  color: white;
+}
+
+.field_row {
+  display: flex;
+  flex-direction: row;
+  gap: s.space(4);
+}
+
+.double_row {
+  display: flex;
+  height: 70px;
+}
+
+.description_footer {
+  display: flex;
+  font-size: 12;
+  color: gray;
+}

@@ -1,0 +1,84 @@
+<main class='main'>
+  <section>
+    <div class='form'>
+      <h1 class='form__title'>Редагування товару</h1>
+
+      <form method='post' action='/product-edit'>
+        {{#with data.product}}
+          <div class='form__content'>
+
+            <div class='field_row'>
+
+              <div class='form__field'>
+                <label for='name' class='form__label'>Назва
+                  товару</label>
+                <input
+                  type='text'
+                  name='name'
+                  class='form__input'
+                  value={{name}}
+                />
+              </div>
+
+              <div class='form__field'>
+                <label
+                  for='price'
+                  class='form__label'
+                >Ціна</label>
+                <input
+                  type='number'
+                  name='price'
+                  class='form__input'
+                  value={{price}}
+                />
+              </div>
+
+              <div class='form__field'>
+                <label
+                  for='id'
+                  class='form__label'
+                >ID</label>
+                <input
+                  type='number'
+                  name='id'
+                  class='form__input'
+                  readonly
+                  value={{id}}
+                />
+              </div>
+
+            </div>
+
+            <div class='form__field'>
+              <label
+                for='description'
+                class='form__label'
+              >Короткий опис товару</label>
+              <input
+                type='text'
+                name='description'
+                class='form__input double_row'
+                value='{{description}}'
+              />
+
+              <span
+                class='description_footer'
+              >Відображається у картці товару</span>
+            </div>
+
+            <div class='form__buttons'>
+              <button
+                class='form__button btn_success'
+              >Зберегти оновлення</button>
+
+              <a
+                class='form__button btn_delete'
+                href='/product-delete?id={{id}}'
+              >Видалити товар</a>
+            </div>
+          </div>
+        {{/with}}
+      </form>
+    </div>
+  </section>
+</main>

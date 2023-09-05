@@ -1,0 +1,97 @@
+@use '../../lib/var.scss' as v;
+
+.form {
+  max-width: 700px;
+  width: 700px;
+  padding: 20;
+}
+
+.form__title {
+  color: #3172ff;
+  font-size: 26;
+  font-weight: 600;
+  margin: 15px 0px 40px;
+  letter-spacing: 2px;
+}
+
+.product-list {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  column-gap: 15px;
+  row-gap: 40px;
+}
+
+.card {
+  border: 1px solid white;
+  border-radius: 10px;
+  box-shadow: 1px 1px 4px 3px #d7dbdb8e;
+  max-height: 250px;
+  height: 100%;
+  padding: 10px;
+  min-height: 160;
+}
+
+.card:hover {
+  transform: scale(1.1);
+  transition: transform 0.5s;
+  box-shadow: 1px 1px 4px 3px #86d4d48e;
+}
+
+.card-header {
+  font-weight: 600;
+}
+
+.card-body {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 15px;
+
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.card-text {
+  font-size: 13;
+  max-height: 60;
+  height: 30;
+}
+
+.card-id {
+  color: grey; 
+  font-size: 13px;
+}
+
+.card-id::before {
+  content: 'ID: ';  
+}
+
+.card-footer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;  
+  align-items: flex-end;
+}
+
+.card-price {
+  color: black;
+  font-weight: 600;
+  letter-spacing: 1px;
+}
+
+.card-price::after {
+  content: '₴';
+}
+
+.btn-edit {
+  font-weight: 600;
+  text-decoration: none;
+  color: #5a8dfc;
+  font-size: 12;
+}
+
+.empty-add-card {
+  background-image: url('/img/post-5705604.png');
+  background-repeat: no-repeat;
+  background-position: center;
+}
