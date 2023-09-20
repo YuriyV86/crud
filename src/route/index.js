@@ -7,310 +7,417 @@ const router = express.Router()
 
 // ================================================================
 
-class User {
-  static #list = []
-
-  constructor(email, login, password) {
-    this.email = email
-    this.login = login
-    this.password = password
-    this.id = new Date().getTime()
-  }
-
-  verifyPassword = (password) => this.password === password
-
-  static add = (user) => {
-    this.#list.push(user)
-  }
-
-  static getList = () => this.#list
-
-  static getById = (id) =>
-    this.#list.find((user) => user.id === id)
-
-  static deleteById = (id) => {
-    const index = this.#list.findIndex(
-      (user) => user.id === id,
-    )
-
-    if (index !== -1) {
-      this.#list.splice(index, 1)
-      return true
-    } else {
-      return false
-    }
-  }
-
-  static updateById = (id, data) => {
-    const user = this.getById(id)
-
-    if (user) {
-      this.update(user, data)
-
-      return true
-    } else {
-      return false
-    }
-  }
-
-  static update = (user, { email }) => {
-    if (email) {
-      user.email = email
-    }
-  }
-}
-
 class Product {
   static #list = []
+  static #count = 0
 
-  constructor(name, price, description) {
-    this.id = Math.floor(Math.random() * 100000)
-    this.name = name
-    this.price = price
+  constructor(
+    img,
+    title,
+    description,
+    category,
+    price,
+    amount = 0,
+  ) {
+    this.id = ++Product.#count // унікальний ID товару
+    this.img = img
+    this.title = title
     this.description = description
-    this.createDate = new Date()
+    this.category = category
+    this.price = price
+    this.amount = amount
   }
 
-  static getList = () => this.#list
-
-  static add = (product) => {
-    this.#list.push(product)
+  static add = (...data) => {
+    const newProduct = new Product(...data)
+    this.#list.push(newProduct)
   }
 
-  static getById = (id) =>
-    this.#list.find((product) => product.id === Number(id))
+  static getList = () => {
+    return this.#list
+  }
 
-  static update = (
-    product,
-    { name, price, description },
+  static getById = (id) => {
+    return this.#list.find((product) => product.id === id)
+  }
+
+  static getRandomList = (id) => {
+    const filteredList = this.#list.filter(
+      (product) => product.id !== id,
+    )
+
+    const shuffledList = filteredList.sort(
+      () => Math.random() - 0.5,
+    )
+
+    return shuffledList.slice(0, 3)
+  }
+}
+
+Product.add(
+  'https://picsum.photos/200/300',
+  `Комп'ютер Artline Gaming (X43v31) AMD Ryzen 5 3600/`,
+  `AMD Ryzen 5 3600 (3.6 - 4.2 ГГц) / RAM 16 ГБ / HDD 1 ТБ + SSD 480 ГБ / nVidia GeForce RTX 3050, 8 ГБ / без ОД / LAN / без ОС`,
+  [
+    { id: 1, text: `Готовий до відправки` },
+    { id: 2, text: `Топ продажів` },
+  ],
+  27001,
+  10,
+)
+
+Product.add(
+  'https://picsum.photos/200/300',
+  `Комп'ютер COBRA Advanced (I11F.8.H1S2.15T.13356) Intel`,
+  `Intel Core i3-10100F (3.6 - 4.3 ГГц) / RAM 8 ГБ / HDD 1 ТБ + SSD 240 ГБ / GeForce GTX 1050 Ti, 4 ГБ / без ОД / LAN / Linux`,
+  [
+    { id: 1, text: `Готовий до відправки` },
+    { id: 2, text: `Топ продажів` },
+  ],
+  17000,
+  11,
+)
+
+Product.add(
+  'https://picsum.photos/200/300',
+  `Комп'ютер ARTLINE Gaming by ASUS TUF v119 (TUFv119)`,
+  `Intel Core i9-13900KF (3.0 - 5.8 ГГц) / RAM 64 ГБ / SSD 2 ТБ (2 x 1 ТБ) / nVidia GeForce RTX 4070 Ti, 12 ГБ / без ОД / LAN / Wi-Fi / Bluetooth / без ОС`,
+  [
+    { id: 1, text: `Готовий до відправки` },
+    { id: 2, text: `Топ продажів` },
+  ],
+  113000,
+  12,
+)
+
+Product.add(
+  'https://picsum.photos/200/300',
+  `Комп'ютер COBRA Advanced (I11F.8.H1S2.15T.13356) Intel`,
+  `AMD Ryzen 5 3600 (3.6 - 4.2 ГГц) / RAM 16 ГБ / HDD 1 ТБ + SSD 480 ГБ / nVidia GeForce RTX 3050, 8 ГБ / без ОД / LAN / без ОС`,
+  [
+    { id: 1, text: `Готовий до відправки` },
+    { id: 2, text: `Топ продажів` },
+  ],
+  9999,
+  9,
+)
+
+class Purchase {
+  static DELIVERY_PRICE = 150
+  static #BONUS_FACTOR = 0.1
+
+  static #count = 0
+  static #list = []
+
+  static #bonusAccount = new Map()
+
+  static getBonusBalance = (email) => {
+    return Purchase.#bonusAccount.get(email) || 0
+  }
+
+  static calcBonusAccount = (value) => {
+    return value * Purchase.#BONUS_FACTOR
+  }
+
+  static updateBonusBalance = (
+    email,
+    price,
+    bonusUse = 0,
   ) => {
-    if (name) {
-      product.name = name
-    }
+    const amount = calcBonusAccount(price)
+    const currentBalance = Purchase.getBonusBalance(email)
+    const updatedBalance =
+      currentBalance + amount - bonusUse
 
-    if (price) {
-      product.price = price
-    }
+    Purchase.#bonusAccount.set(email, updatedBalance)
 
-    if (description) {
-      product.description = description
-    }
+    console.log(email, updatedBalance)
+
+    return amount
+  }
+
+  constructor(data, product) {
+    this.id = ++Purchase.#count
+
+    this.firstname = data.firstname
+    this.lastname = data.lastname
+    this.phone = data.phone
+    this.email = data.email
+    this.comment = data.comment || null
+    this.bonus = data.bonus || 0
+    this.promocode = data.promocode || null
+
+    this.totalPrice = data.totalPrice
+    this.productPrice = data.productPrice
+    this.deliveryPrice = data.deliveryPrice
+    this.amount = data.amount
+
+    this.product = product
+  }
+
+  static add = (...arg) => {
+    const newPurchase = new Purchase(...arg)
+    this.#list.push(newPurchase)
+    return newPurchase
+  }
+
+  static getList = () => {
+    return Purchase.#list.reverse()
+  }
+
+  static getById = (id) => {
+    return Purchase.#list.find((item) => item.id === id)
   }
 
   static updateById = (id, data) => {
-    const product = this.getById(id)
+    const purchase = Purchase.getById(id)
 
-    if (product) {
-      this.update(product, data)
+    if (purchase) {
+      if (data.firstname) {
+        purchase.firstname = data.firstname
+      }
 
-      return true
-    } else {
-      return false
-    }
-  }
+      if (data.lastname) {
+        purchase.lastname = data.lastname
+      }
 
-  static deleteById = (id) => {
-    const index = this.#list.findIndex(
-      (product) => product.id === Number(id),
-    )
+      if (data.phone) {
+        purchase.phone = data.phone
+      }
 
-    if (index !== -1) {
-      this.#list.splice(index, 1)
+      if (data.email) {
+        purchase.email = data.email
+      }
+
       return true
     } else {
       return false
     }
   }
 }
+
+class Promocode {
+  static #list = []
+
+  constructor(name, factor) {
+    this.name = name
+    this.factor = factor
+  }
+
+  static add = (name, factor) => {
+    const newPromocode = new Promocode(name, factor)
+    Promocode.#list.push(newPromocode)
+    return newPromocode
+  }
+
+  static getByName = (name) => {
+    return this.#list.find((item) => item.name === name)
+  }
+
+  static calc = (promo, price) => {
+    return price * promo.factor
+  }
+}
+
+Promocode.add('SUMMER2023', 0.9)
+Promocode.add('DISCOUNT50', 0.5)
+Promocode.add('SALE25', 0.75)
 
 // ================================================================
 
 // router.get Створює нам один ентпоїнт
-
 // ↙️ тут вводимо шлях (PATH) до сторінки
-// router.get('/', function (req, res) {
-//   const list = User.getList()
-
-//   res.render('index', {
-//     style: 'index',
-
-//     data: {
-//       users: {
-//         list,
-//         isEmpty: list.length === 0,
-//       },
-//     },
-//   })
-// })
-
-router.post('/user-create', function (req, res) {
-  const { email, login, password } = req.body
-
-  const user = new User(email, login, password)
-
-  User.add(user)
-
-  res.render('success-info', {
-    style: 'success-info',
-    info: 'Користувач створений',
-  })
-})
-
-router.get('/user-delete', function (req, res) {
-  const { id } = req.query
-
-  User.deleteById(Number(id))
-
-  res.render('success-info', {
-    style: 'success-info',
-    info: 'Користувача видалено',
-  })
-})
-
-router.post('/user-update', function (req, res) {
-  const { email, password, id } = req.body
-
-  let result = false
-
-  const user = User.getById(Number(id))
-
-  if (user.verifyPassword(password)) {
-    User.update(user, { email })
-    result = true
-  }
-
-  res.render('success-info', {
-    style: 'success-info',
-    info: result
-      ? 'Користувача модифіковано'
-      : 'Помилка оновлення',
-  })
-})
-
-// =====================================
-
 router.get('/', function (req, res) {
-  let list = Product.getList()
+  res.render('purchase-index', {
+    style: 'purchase-index',
+    data: { list: Product.getList() },
+  })
+})
 
-  if (list.length === 0) {
-    Product.add(
-      new Product('name1', 111, 'descr1gy yufufiygyh'),
-    )
-    Product.add(
-      new Product(
-        'name2',
-        222,
-        'descr2njib huh gyyufufiygyh yugygy ggyoiuugugyyug',
-      ),
-    )
-    Product.add(
-      new Product('name3', 333, 'descr3 ggyoiuugugyyug'),
-    )
-    Product.add(new Product('name4', 444, 'descr4 yugygy'))
+router.get('/purchase-product', function (req, res) {
+  const id = Number(req.query.id)
 
-    list = Product.getList()
-  }
-
-  res.render('product-list-ui', {
-    style: 'product-list-ui',
+  res.render('purchase-product', {
+    style: 'purchase-product',
     data: {
-      products: {
-        list,
-        isEmpty: list.length === 0,
-      },
+      list: Product.getRandomList(id),
+      product: Product.getById(id),
     },
   })
 })
 
-router.get('/product-create', function (req, res) {
-  res.render('product-create-ui', {
-    style: 'product-create-ui',
-  })
-})
+router.post('/purchase-create', function (req, res) {
+  const id = Number(req.query.id)
+  const amount = Number(req.body.amount)
 
-router.post('/product-create', function (req, res) {
-  const { name, price, description } = req.body
-  let result = false
-
-  let product = new Product(name, price, description)
-
-  Product.add(product)
-  result = true
-
-  res.render('alert', {
-    style: 'alert',
-    success: result,
-    info: result
-      ? 'Товар був успішно створений'
-      : 'Помилка створення товару',
-  })
-})
-
-router.get('/product-list', function (req, res) {
-  const list = Product.getList()
-
-  res.render('product-list-ui', {
-    style: 'product-list-ui',
-
-    data: {
-      products: {
-        list,
-        isEmpty: list.length === 0,
-      },
-    },
-  })
-})
-
-router.get('/product-edit', function (req, res) {
-  const { id } = req.query
-
-  let product = Product.getById(id)
-
-  if (product !== undefined) {
-    res.render('product-edit-ui', {
-      style: 'product-edit-ui',
-      data: {
-        product,
-      },
-    })
-  } else {
-    res.render('alert', {
+  if (amount < 1) {
+    return res.render('alert', {
       style: 'alert',
       success: false,
-      info: 'Товар з таким ID не знайдено',
+      info: 'Некорректна кількість товару ',
+      link: `/purchase-product?id=${id}`,
     })
   }
+
+  const product = Product.getById(id)
+
+  if (product.amount < 1) {
+    return res.render('alert', {
+      style: 'alert',
+      success: false,
+      info: 'Такої кількості товару немає в наявності',
+      link: `/purchase-product?id=${id}`,
+    })
+  }
+
+  const productPrice = product.price * amount
+  const totalPrice = product.price + Purchase.DELIVERY_PRICE
+  const bonus = Purchase.calcBonusAccount(totalPrice)
+
+  res.render('purchase-create', {
+    style: 'purchase-create',
+    data: {
+      id: product.id,
+      cart: [
+        {
+          text: `${product.title} (${amount} шт.)`,
+          price: productPrice,
+        },
+        {
+          text: `Доставка`,
+          price: Purchase.DELIVERY_PRICE,
+        },
+      ],
+      totalPrice,
+      productPrice,
+      deliveryPrice: Purchase.DELIVERY_PRICE,
+      amount,
+      bonus,
+    },
+  })
 })
 
-router.post('/product-edit', function (req, res) {
-  const { id, name, price, description } = req.body
+router.post('/purchase-submit', function (req, res) {
+  const id = Number(req.query.id)
 
-  const result = Product.updateById(id, {
-    name,
-    price,
-    description,
-  })
+  let {
+    totalPrice,
+    productPrice,
+    deliveryPrice,
+    amount,
 
-  res.render('alert', {
+    firstname,
+    lastname,
+    email,
+    phone,
+    comment,
+    promocode,
+    bonus,
+  } = req.body
+
+  const product = Product.getById(id)
+
+  if (!product) {
+    return res.render('alert', {
+      style: 'alert',
+      success: false,
+      info: 'Товар не знайдено',
+      link: `/purchase-list`,
+    })
+  }
+
+  if (product.amount < amount) {
+    return res.render('alert', {
+      style: 'alert',
+      success: false,
+      info: 'Невірна кількість товару',
+      link: `/purchase-list`,
+    })
+  }
+
+  totalPrice = Number(totalPrice)
+  productPrice = Number(productPrice)
+  deliveryPrice = Number(deliveryPrice)
+  amount = Number(amount)
+  bonus = Number(bonus)
+
+  if (
+    isNaN(totalPrice) ||
+    isNaN(productPrice) ||
+    isNaN(deliveryPrice) ||
+    isNaN(amount) ||
+    isNaN(bonus)
+  ) {
+    return res.render('alert', {
+      style: 'alert',
+      success: false,
+      info: 'Некоректні дані',
+      link: `/purchase-list`,
+    })
+  }
+
+  if (!firstname || !lastname || !email || !phone) {
+    return res.render('alert', {
+      style: 'alert',
+      success: false,
+      info: "Заповніть обов'язкові поля",
+      link: `/purchase-list`,
+    })
+  }
+
+  if (bonus || bonus > 0) {
+    const bonusAmount = Purchase.getBonusBalance(email)
+
+    console.log(bonusAmount)
+
+    if (bonus > bonusAmount) {
+      bonus = bonusAmount
+    }
+
+    Purchase.updateBonusBalance(email, totalPrice, bonus)
+
+    totalPrice -= bonus
+  } else {
+    Purchase.updateBonusBalance(email, totalPrice, 0)
+  }
+
+  if (promocode) {
+    promocode = Promocode.getByName(promocode)
+
+    if (promocode) {
+      totalPrice = Promocode.calc(promocode, totalPrice)
+    }
+  }
+
+  // if (totalPrice < 0) {totalPrice = 0}
+  totalPrice = Math.max(totalPrice, 0.01)
+
+  const purchase = Purchase.add(
+    {
+      totalPrice,
+      productPrice,
+      deliveryPrice,
+      amount,
+      bonus,
+
+      firstname,
+      lastname,
+      email,
+      phone,
+      comment,
+
+      promocode,
+    },
+    product,
+  )
+
+  console.log(purchase)
+
+  return res.render('alert', {
     style: 'alert',
-    success: result,
-    info: result
-      ? 'Товар успішно оновлено'
-      : 'Помилка оновлення товару',
-  })
-})
-
-router.get('/product-delete', function (req, res) {
-  const { id } = req.query
-
-  const result = Product.deleteById(id)
-
-  res.render('alert', {
-    style: 'alert',
-    success: result,
-    info: result
-      ? 'Товар успішно видалено'
-      : 'Помилка видалення товару',
+    success: true,
+    info: 'Замовлення створено',
+    link: `/purchase-list`,
   })
 })
 
