@@ -1,0 +1,13 @@
+.label-field {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  align-items: flex-start;
+  font-size: 14px;
+}
+.label-field .value {
+  font-size: 16px;
+  font-weight: bolder;
+}
+
+/*# sourceMappingURL=style.css.map */

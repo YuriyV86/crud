@@ -54,54 +54,6 @@ class Product {
   }
 }
 
-Product.add(
-  'https://picsum.photos/200/300',
-  `Комп'ютер Artline Gaming (X43v31) AMD Ryzen 5 3600/`,
-  `AMD Ryzen 5 3600 (3.6 - 4.2 ГГц) / RAM 16 ГБ / HDD 1 ТБ + SSD 480 ГБ / nVidia GeForce RTX 3050, 8 ГБ / без ОД / LAN / без ОС`,
-  [
-    { id: 1, text: `Готовий до відправки` },
-    { id: 2, text: `Топ продажів` },
-  ],
-  27001,
-  10,
-)
-
-Product.add(
-  'https://picsum.photos/200/300',
-  `Комп'ютер COBRA Advanced (I11F.8.H1S2.15T.13356) Intel`,
-  `Intel Core i3-10100F (3.6 - 4.3 ГГц) / RAM 8 ГБ / HDD 1 ТБ + SSD 240 ГБ / GeForce GTX 1050 Ti, 4 ГБ / без ОД / LAN / Linux`,
-  [
-    { id: 1, text: `Готовий до відправки` },
-    { id: 2, text: `Топ продажів` },
-  ],
-  17000,
-  11,
-)
-
-Product.add(
-  'https://picsum.photos/200/300',
-  `Комп'ютер ARTLINE Gaming by ASUS TUF v119 (TUFv119)`,
-  `Intel Core i9-13900KF (3.0 - 5.8 ГГц) / RAM 64 ГБ / SSD 2 ТБ (2 x 1 ТБ) / nVidia GeForce RTX 4070 Ti, 12 ГБ / без ОД / LAN / Wi-Fi / Bluetooth / без ОС`,
-  [
-    { id: 1, text: `Готовий до відправки` },
-    { id: 2, text: `Топ продажів` },
-  ],
-  113000,
-  12,
-)
-
-Product.add(
-  'https://picsum.photos/200/300',
-  `Комп'ютер COBRA Advanced (I11F.8.H1S2.15T.13356) Intel`,
-  `AMD Ryzen 5 3600 (3.6 - 4.2 ГГц) / RAM 16 ГБ / HDD 1 ТБ + SSD 480 ГБ / nVidia GeForce RTX 3050, 8 ГБ / без ОД / LAN / без ОС`,
-  [
-    { id: 1, text: `Готовий до відправки` },
-    { id: 2, text: `Топ продажів` },
-  ],
-  9999,
-  9,
-)
-
 class Purchase {
   static DELIVERY_PRICE = 150
   static #BONUS_FACTOR = 0.1
@@ -115,7 +67,7 @@ class Purchase {
     return Purchase.#bonusAccount.get(email) || 0
   }
 
-  static calcBonusAccount = (value) => {
+  static calcBonusAmount = (value) => {
     return value * Purchase.#BONUS_FACTOR
   }
 
@@ -124,14 +76,14 @@ class Purchase {
     price,
     bonusUse = 0,
   ) => {
-    const amount = calcBonusAccount(price)
+    const amount = this.calcBonusAmount(price)
     const currentBalance = Purchase.getBonusBalance(email)
     const updatedBalance =
       currentBalance + amount - bonusUse
 
     Purchase.#bonusAccount.set(email, updatedBalance)
 
-    console.log(email, updatedBalance)
+    // console.log(email, updatedBalance)
 
     return amount
   }
@@ -147,12 +99,16 @@ class Purchase {
     this.bonus = data.bonus || 0
     this.promocode = data.promocode || null
 
-    this.totalPrice = data.totalPrice
-    this.productPrice = data.productPrice
-    this.deliveryPrice = data.deliveryPrice
-    this.amount = data.amount
+    this.totalPrice = data.totalPrice.toFixed(2)
+    this.productPrice = data.productPrice.toFixed(2)
+    this.deliveryPrice = data.deliveryPrice.toFixed(2)
+    this.amount = data.amount.toFixed(0)
 
     this.product = product
+
+    this.calcBonus = Purchase.calcBonusAmount(
+      product.price,
+    ).toFixed(0)
   }
 
   static add = (...arg) => {
@@ -162,7 +118,8 @@ class Purchase {
   }
 
   static getList = () => {
-    return Purchase.#list.reverse()
+    return Purchase.#list
+    // return Purchase.#list.reverse();
   }
 
   static getById = (id) => {
@@ -219,6 +176,56 @@ class Promocode {
   }
 }
 
+// ================================================================
+
+Product.add(
+  'https://picsum.photos/200/300',
+  `Комп'ютер Artline Gaming (X43v31) AMD Ryzen 5 3600/`,
+  `AMD Ryzen 5 3600 (3.6 - 4.2 ГГц) / RAM 16 ГБ / HDD 1 ТБ + SSD 480 ГБ / nVidia GeForce RTX 3050, 8 ГБ / без ОД / LAN / без ОС`,
+  [
+    { id: 1, text: `Готовий до відправки` },
+    { id: 2, text: `Топ продажів` },
+  ],
+  27001,
+  10,
+)
+
+Product.add(
+  'https://picsum.photos/200/300',
+  `Комп'ютер COBRA Advanced (I11F.8.H1S2.15T.13356) Intel`,
+  `Intel Core i3-10100F (3.6 - 4.3 ГГц) / RAM 8 ГБ / HDD 1 ТБ + SSD 240 ГБ / GeForce GTX 1050 Ti, 4 ГБ / без ОД / LAN / Linux`,
+  [
+    { id: 1, text: `Готовий до відправки` },
+    { id: 2, text: `Топ продажів` },
+  ],
+  17000,
+  11,
+)
+
+Product.add(
+  'https://picsum.photos/200/300',
+  `Комп'ютер ARTLINE Gaming by ASUS TUF v119 (TUFv119)`,
+  `Intel Core i9-13900KF (3.0 - 5.8 ГГц) / RAM 64 ГБ / SSD 2 ТБ (2 x 1 ТБ) / nVidia GeForce RTX 4070 Ti, 12 ГБ / без ОД / LAN / Wi-Fi / Bluetooth / без ОС`,
+  [
+    { id: 1, text: `Готовий до відправки` },
+    { id: 2, text: `Топ продажів` },
+  ],
+  113000,
+  12,
+)
+
+Product.add(
+  'https://picsum.photos/200/300',
+  `Комп'ютер COBRA Advanced (I11F.8.H1S2.15T.13356) Intel`,
+  `AMD Ryzen 5 3600 (3.6 - 4.2 ГГц) / RAM 16 ГБ / HDD 1 ТБ + SSD 480 ГБ / nVidia GeForce RTX 3050, 8 ГБ / без ОД / LAN / без ОС`,
+  [
+    { id: 1, text: `Готовий до відправки` },
+    { id: 2, text: `Топ продажів` },
+  ],
+  9999,
+  9,
+)
+
 Promocode.add('SUMMER2023', 0.9)
 Promocode.add('DISCOUNT50', 0.5)
 Promocode.add('SALE25', 0.75)
@@ -272,7 +279,7 @@ router.post('/purchase-create', function (req, res) {
 
   const productPrice = product.price * amount
   const totalPrice = product.price + Purchase.DELIVERY_PRICE
-  const bonus = Purchase.calcBonusAccount(totalPrice)
+  const bonus = Purchase.calcBonusAmount(totalPrice)
 
   res.render('purchase-create', {
     style: 'purchase-create',
@@ -368,8 +375,6 @@ router.post('/purchase-submit', function (req, res) {
   if (bonus || bonus > 0) {
     const bonusAmount = Purchase.getBonusBalance(email)
 
-    console.log(bonusAmount)
-
     if (bonus > bonusAmount) {
       bonus = bonusAmount
     }
@@ -389,7 +394,6 @@ router.post('/purchase-submit', function (req, res) {
     }
   }
 
-  // if (totalPrice < 0) {totalPrice = 0}
   totalPrice = Math.max(totalPrice, 0.01)
 
   const purchase = Purchase.add(
@@ -411,12 +415,80 @@ router.post('/purchase-submit', function (req, res) {
     product,
   )
 
-  console.log(purchase)
+  // console.log(purchase)
 
   return res.render('alert', {
     style: 'alert',
     success: true,
     info: 'Замовлення створено',
+    link: `/purchase-list`,
+  })
+})
+
+router.get('/purchase-list', function (req, res) {
+  res.render('purchase-list', {
+    style: 'purchase-list',
+    data: {
+      list: Purchase.getList(),
+    },
+  })
+})
+
+router.get('/purchase-view/', function (req, res) {
+  const id = Number(req.query.id)
+
+  const purchase = Purchase.getById(id)
+
+  // console.log(purchase)
+
+  res.render('purchase-view', {
+    style: 'purchase-view',
+    purchase: purchase,
+    deliveryPrice: Purchase.DELIVERY_PRICE,
+  })
+})
+
+router.post('/purchase-edit', function (req, res) {
+  // const id = Number(req.query.id)
+
+  res.render('purchase-edit', {
+    style: 'purchase-edit',
+    purchase: Purchase.getById(Number(req.query.id)),
+  })
+})
+
+router.post('/purchase-edit-submit', function (req, res) {
+  // console.clear()
+
+  const id = Number(req.query.id)
+  let { firstname, lastname, email, phone } = req.body
+
+  const purchase = Purchase.getById(id)
+
+  // console.log(purchase)
+
+  if (!firstname || !lastname || !email || !phone) {
+    return res.render('alert', {
+      style: 'alert',
+      success: false,
+      info: "Заповніть обов'язкові поля",
+      link: `/purchase-list`,
+    })
+  }
+
+  Purchase.updateById(id, {
+    firstname,
+    lastname,
+    email,
+    phone,
+  })
+
+  // console.log(purchase)
+
+  return res.render('alert', {
+    style: 'alert',
+    success: true,
+    info: 'Замовлення оновлено',
     link: `/purchase-list`,
   })
 })
