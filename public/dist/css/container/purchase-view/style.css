@@ -1,0 +1,89 @@
+.heading {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.heading__title {
+  font-size: 28px;
+  color: black;
+}
+
+.heading__info {
+  font-size: 18px;
+  color: black;
+}
+
+.label-field {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  align-items: flex-start;
+  font-size: 14px;
+}
+.label-field .value {
+  font-size: 16px;
+  font-weight: bolder;
+}
+
+.divider {
+  width: 100%;
+  height: 1px;
+  background: #CED4DA;
+}
+
+.button {
+  background-color: #3172ff;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  padding: 10px, 20px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: opacity 0.3s ease;
+}
+.button:hover {
+  opacity: 0.7;
+}
+
+.main {
+  max-width: 800px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 20px;
+}
+
+.form-card {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 20px;
+  border: 1px solid #CED4DA;
+  border-radius: 10px;
+}
+
+.cart {
+  display: grid;
+  gap: 8px;
+}
+
+.cart__item {
+  display: flex;
+  justify-content: space-between;
+}
+
+.cart-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
+.cart-product {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+}
+
+/*# sourceMappingURL=style.css.map */

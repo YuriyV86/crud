@@ -1,0 +1,14 @@
+@use '../../lib/service.scss' as s;
+
+.label-field {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  align-items: flex-start;
+  font-size: 14px;
+
+  .value {
+    font-size: 16px;
+    font-weight: bolder;
+  }
+}

@@ -1,0 +1,94 @@
+@charset "UTF-8";
+.heading {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.heading__title {
+  font-size: 28px;
+  color: black;
+}
+
+.heading__info {
+  font-size: 18px;
+  color: black;
+}
+
+.divider {
+  width: 100%;
+  height: 1px;
+  background: #CED4DA;
+}
+
+.button {
+  background-color: #3172ff;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  padding: 10px, 20px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: opacity 0.3s ease;
+}
+.button:hover {
+  opacity: 0.7;
+}
+
+.main {
+  max-width: 800px;
+  font-family: Inter;
+  padding: 20px;
+}
+
+.grid {
+  display: flex;
+  flex-direction: column;
+  padding-top: 60px;
+  gap: 10px;
+}
+
+.title__row, .list__row {
+  display: grid;
+  grid-template-columns: 0.5fr 2fr repeat(2, 1fr) 0.5fr;
+  align-items: center;
+  gap: 20px;
+  padding: 15px 10px;
+}
+
+.title__row {
+  font-size: 14px;
+  font-weight: bold;
+  color: #808080;
+}
+
+.list__item {
+  padding: 5px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  color: black;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.5;
+}
+
+.list__id {
+  color: #808080;
+}
+
+.list__row {
+  align-items: baseline;
+  border-radius: 5px;
+  box-shadow: 3px 3px 7px 1px rgb(153, 179, 199);
+}
+.list__row:hover {
+  transform: scale(1.015);
+  transition: 0.35s ease;
+}
+
+.list__sum::after, .list__bonus::after {
+  content: "₴";
+}
+
+/*# sourceMappingURL=style.css.map */
