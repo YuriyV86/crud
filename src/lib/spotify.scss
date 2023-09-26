@@ -18,6 +18,15 @@ a {
   display: flex;
   justify-content: center;
   padding: s.space(6) s.space(2);
+
+  img {
+    border-radius: 5px;
+  }
+
+  .to_main {
+    color: greenyellow;
+    font-size: 12px;
+  }
 }
 
 .main__content {
@@ -75,10 +84,6 @@ a {
   &__list {
     display: grid;
     gap: s.space(7);
-
-    img {
-      border-radius: 5px;
-    }
   }
 
   &__content {

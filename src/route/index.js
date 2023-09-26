@@ -28,6 +28,12 @@ class Track {
   static getList() {
     return this.#list.reverse()
   }
+
+  static getById(id) {
+    return (
+      Track.#list.find((track) => track.id === id) || null
+    )
+  }
 }
 
 class Playlist {
@@ -37,7 +43,7 @@ class Playlist {
     this.id = Math.floor(1000 + Math.random() * 9000)
     this.name = name
     this.tracks = []
-    this.image = `http://picsum.photos/100/100`
+    this.image = `http://picsum.photos/300/300`
   }
 
   static create(name) {
@@ -82,6 +88,14 @@ class Playlist {
         .includes(name.toLowerCase()),
     )
   }
+
+  addTrackById(trackId) {
+    const track = Track.getById(trackId)
+
+    if (track) {
+      this.tracks.push(track)
+    }
+  }
 }
 
 // ================================================================
@@ -121,14 +135,29 @@ Track.create(
   'http://picsum.photos/100/100',
 )
 
-Playlist.makeMix(Playlist.create('Playlist #1'))
-Playlist.makeMix(Playlist.create('Playlist #2'))
-Playlist.makeMix(Playlist.create('Playlist #3'))
+Playlist.makeMix(Playlist.create('Пісні, що сподобались'))
+Playlist.makeMix(Playlist.create('Спільний альбом'))
+Playlist.makeMix(Playlist.create('Інь Ян'))
 // ================================================================
 
 // router.get Створює нам один ентпоїнт
 // ↙️ тут вводимо шлях (PATH) до сторінки
+
 router.get('/', function (req, res) {
+  const trackList = Playlist.getList()
+
+  res.render('spotify-overview', {
+    style: 'spotify-overview',
+    data: {
+      list: trackList.map(({ tracks, ...rest }) => ({
+        ...rest,
+        amount: tracks.length,
+      })),
+    },
+  })
+})
+
+router.get('/spotify-choose', function (req, res) {
   res.render('spotify-choose', {
     style: 'spotify-choose',
     data: {},
@@ -159,14 +188,13 @@ router.post('/spotify-create', function (req, res) {
     })
   }
 
-  // console.log(req.body, req.query)
   const playlist = Playlist.create(name)
 
   if (isMix) {
     Playlist.makeMix(playlist)
   }
 
-  console.log(playlist)
+  // console.log(playlist)
 
   res.render('spotify-playlist', {
     style: 'spotify-playlist',
@@ -179,7 +207,7 @@ router.post('/spotify-create', function (req, res) {
 })
 
 router.get('/spotify-playlist', function (req, res) {
-  const id = Number(req.body.id)
+  const id = Number(req.query.id)
 
   const playlist = Playlist.getById(id)
 
@@ -191,8 +219,6 @@ router.get('/spotify-playlist', function (req, res) {
       link: '/',
     })
   }
-
-  // console.log('playlist.tracks', playlist.tracks)
 
   res.render('spotify-playlist', {
     style: 'spotify-playlist',
@@ -261,6 +287,48 @@ router.post('/spotify-search', function (req, res) {
         amount: tracks.length,
       })),
       value,
+    },
+  })
+})
+
+router.get('/spotify-playlist-add', function (req, res) {
+  const playlistId = Number(req.query.playlistId)
+
+  const playlist = Playlist.getById(playlistId)
+
+  res.render('spotify-playlist-add', {
+    style: 'spotify-playlist-add',
+    data: {
+      playlistId: playlistId,
+      tracks: Track.getList(),
+      name: playlist.name,
+    },
+  })
+})
+
+router.get('/spotify-track-add', function (req, res) {
+  const playlistId = Number(req.query.playlistId)
+  const trackId = Number(req.query.trackId)
+
+  const playlist = Playlist.getById(playlistId)
+
+  if (!playlist) {
+    return res.render('alert', {
+      style: 'alert',
+      success: false,
+      info: 'Плейліст не знайдено',
+      link: `/spotify-playlist?id=${playlistId}`,
+    })
+  }
+
+  playlist.addTrackById(trackId)
+
+  res.render('spotify-playlist', {
+    style: 'spotify-playlist',
+    data: {
+      playlistId: playlist.id,
+      tracks: playlist.tracks.reverse(),
+      name: playlist.name,
     },
   })
 })

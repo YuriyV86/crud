@@ -15,6 +15,13 @@ a:hover {
   justify-content: center;
   padding: 24px 8px;
 }
+.main img {
+  border-radius: 5px;
+}
+.main .to_main {
+  color: greenyellow;
+  font-size: 12px;
+}
 
 .main__content {
   width: 100%;
@@ -68,9 +75,6 @@ a:hover {
   display: grid;
   gap: 28px;
 }
-.playlist__list img {
-  border-radius: 5px;
-}
 .playlist__content {
   display: flex;
   flex-direction: column;
@@ -84,15 +88,6 @@ a:hover {
 .playlist__amount {
   font-size: 16px;
   color: #bdbdbd;
-}
-
-.add-button {
-  display: grid;
-  grid-template-columns: 92px 1fr;
-  align-items: center;
-  gap: 24px;
-  color: #ddd;
-  font-size: 18px;
 }
 
 /*# sourceMappingURL=style.css.map */

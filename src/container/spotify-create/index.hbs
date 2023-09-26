@@ -1,10 +1,12 @@
 <main class="main">
+  <a href="/" class="to_main">На головну</a>
+  
   <div class="main__content">
     <header class="header">
       <a href="/" <img src="/svg/cross_back.svg"> </a>
     </header>
 
-    <h1 class="title title--center title-small">Назвіть плейліст</h1>
+    <h1 class="title title--center title-small">Назвіть {{#if data.isMix}}мікс{{else}}плейліст{{/if}}</h1>
 
     <form method="POST" action="/spotify-create{{#if data.isMix}}?isMix=true{{/if}}" class="form">
       <input required type="text" class="form__field" placeholder="Назва" name="name">

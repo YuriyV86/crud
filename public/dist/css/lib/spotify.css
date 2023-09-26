@@ -15,6 +15,13 @@ a:hover {
   justify-content: center;
   padding: 24px 8px;
 }
+.main img {
+  border-radius: 5px;
+}
+.main .to_main {
+  color: greenyellow;
+  font-size: 12px;
+}
 
 .main__content {
   width: 100%;
@@ -67,9 +74,6 @@ a:hover {
 .playlist__list {
   display: grid;
   gap: 28px;
-}
-.playlist__list img {
-  border-radius: 5px;
 }
 .playlist__content {
   display: flex;
