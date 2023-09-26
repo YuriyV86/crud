@@ -16,7 +16,7 @@
 
 .product-card {
   border-radius: 10px;
-  border: 1px solid #CED4DA;
+  border: 1px solid #ced4da;
   padding: 16px;
   display: flex;
   flex-direction: column;
@@ -90,7 +90,7 @@
 .divider {
   width: 100%;
   height: 1px;
-  background: #CED4DA;
+  background: #ced4da;
 }
 
 .button {
@@ -141,7 +141,7 @@
 
 .product-info__subtitle {
   font-size: 26px;
-  font-weight: gray;
+  font-weight: #bdbdbd;
 }
 
 .product-info__category {
