@@ -1,0 +1,150 @@
+@charset "UTF-8";
+a {
+  text-decoration: none;
+  color: inherit;
+  transition: opacity 0.6s;
+}
+a:hover {
+  opacity: 0.6;
+}
+
+.main {
+  background-color: black;
+  height: 100%;
+  color: #ddd;
+  display: flex;
+  justify-content: center;
+  padding: 24px 8px;
+}
+.main img {
+  border-radius: 5px;
+}
+.main .to_main {
+  color: greenyellow;
+  font-size: 12px;
+}
+
+.main__content {
+  width: 100%;
+  max-width: 600px;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+.title {
+  margin-top: 12px;
+  font-size: 24px;
+}
+
+.title--center {
+  text-align: center;
+}
+
+.track {
+  display: grid;
+  grid-template-columns: 92px 1fr 42px;
+  gap: 28px;
+  align-items: center;
+}
+.track__list {
+  display: grid;
+  gap: 28px;
+}
+.track__content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 8px;
+}
+.track__name {
+  font-size: 24px;
+  color: #ddd;
+}
+.track__author {
+  font-size: 24px;
+  color: #bdbdbd;
+}
+
+.playlist {
+  display: grid;
+  grid-template-columns: 92px 1fr;
+  gap: 28px;
+  align-items: center;
+}
+.playlist__list {
+  display: grid;
+  gap: 28px;
+}
+.playlist__content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 8px;
+}
+.playlist__name {
+  font-size: 24px;
+  color: #ddd;
+}
+.playlist__amount {
+  font-size: 16px;
+  color: #bdbdbd;
+}
+
+.header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+  align-items: center;
+  font-size: 40px;
+  gap: 54px 30px;
+}
+.header .title {
+  color: #fffefe;
+  font-size: 28px;
+  font-weight: 500;
+}
+.header__buttons {
+  display: flex;
+  gap: 20px;
+}
+
+.playlist__cards {
+  display: grid;
+  grid-template-columns: auto auto;
+  column-gap: 30px;
+  row-gap: 55px;
+}
+.playlist__cards .card {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 5px;
+  border-radius: 3px;
+  height: 100%;
+  width: 285px;
+}
+.playlist__cards .card:hover {
+  box-shadow: 4px 4px 9px 1px rgba(175, 226, 230, 0.87);
+  transform: scale(1.01);
+  transition: 0.7s;
+}
+.playlist__cards img {
+  object-fit: fill;
+  border-radius: 7px;
+}
+.playlist__cards__title {
+  color: #bdbdbd;
+  font-size: 22px;
+  font-weight: 400;
+}
+.playlist__cards__tracks-amount {
+  color: #bdbdbd;
+  font-size: 14px;
+}
+.playlist__cards .playlist__tracks-amount::before {
+  content: "Кількість треків: ";
+}
+
+/*# sourceMappingURL=style.css.map */
